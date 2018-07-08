@@ -40,17 +40,18 @@ class LocationController extends Controller
         $data_array = explode("*", $data, 8);
 
         if(count($data_array) !== 7) {
-            // neki kurac cu napravit za ovo
+            // neki error handling
         } else {
 
             $data_ts = explode("--", $data_array[4], 2);
 
+            dd($data_array, $data_ts[0] . " " . $data_ts[1]);
             $location = Location::create([
                 'longitude' => $data_array[0],
                 'latitude' => $data_array[1],
                 'speed' => $data_array[2],
                 'altitude' => $data_array[3],
-                'timestamp' => $data_array[4],
+                'timestamp' => $data_ts[0] . " " . $data_ts[1],
                 'satellites' => $data_array[5],
                 'serial_number' => $data_array[6]
             ]);

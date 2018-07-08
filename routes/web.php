@@ -24,3 +24,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 //       'uses' => ''
 //   ])
 //});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('device/store', [
+        'uses' => 'DeviceController@store',
+        'as' =>  'device.store'
+    ]);
+
+    Route::get('device/create', [
+        'uses' => 'DeviceController@create',
+        'as' => 'device.create'
+    ]);
+});

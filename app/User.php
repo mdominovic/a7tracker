@@ -27,4 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function device()
+    {
+        return $this->hasMany('App\Device');
+    }
 }
