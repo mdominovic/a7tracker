@@ -15,7 +15,6 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->decimal('longitude', 9, 6);
             $table->decimal('latitude', 9, 6);
             $table->decimal('speed', 5, 2);
@@ -23,6 +22,7 @@ class CreateLocationsTable extends Migration
             $table->integer('satellites')->unsigned();
             $table->dateTime('timestamp');
             $table->string('serial_number');
+            $table->integer('device_id');
             $table->timestamps();
         });
     }

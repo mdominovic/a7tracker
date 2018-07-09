@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Device;
 use App\Location;
 use Illuminate\Http\Request;
 
@@ -35,17 +36,13 @@ class LocationController extends Controller
      */
     public function store($data)
     {
-        $data_array = array();
+        $data_array = explode("*", $data, 7);
 
-        $data_array = explode("*", $data, 8);
-
-        if(count($data_array) !== 7) {
-            // neki error handling
-        } else {
-
+        if(Device::where('serial_number', $data_array[6])->first() !== null) {
             $data_ts = explode("--", $data_array[4], 2);
 
-            dd($data_array, $data_ts[0] . " " . $data_ts[1]);
+            $d = Device::where('serial_number', $data_array[6])->first();
+
             $location = Location::create([
                 'longitude' => $data_array[0],
                 'latitude' => $data_array[1],
@@ -53,7 +50,8 @@ class LocationController extends Controller
                 'altitude' => $data_array[3],
                 'timestamp' => $data_ts[0] . " " . $data_ts[1],
                 'satellites' => $data_array[5],
-                'serial_number' => $data_array[6]
+                'serial_number' => $data_array[6],
+                'device_id' => $d->id
             ]);
         }
     }
@@ -64,9 +62,13 @@ class LocationController extends Controller
      * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show($id)
     {
-        //
+        $device = Device::find($id);
+
+        return view('location.show')->with('device', $device);
+
+            //->with('best_answer', $best_answer);;
     }
 
     /**

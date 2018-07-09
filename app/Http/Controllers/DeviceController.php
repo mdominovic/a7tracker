@@ -17,7 +17,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        //
+        return view('device.show')->with('devices', Device::where('user_id', Auth::id())->get());
     }
 
     /**
@@ -73,9 +73,9 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function edit(Device $device)
+    public function edit($id)
     {
-        //
+        return view('device.edit')->with('device', Device::find($id));
     }
 
     /**
@@ -85,9 +85,21 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Device $device)
+    public function update(Request $request, $id)
     {
-        //
+        $device = Device::find($id);
+
+        $device->name = $request->name;
+        $device->serial_number = $request->serial_number;
+        $device->imei = $request->imei;
+        $device->contact_1 = $request->contact_1;
+        $device->contact_2 = $request->contact_2;
+        $device->contact_3 = $request->contact_3;
+        $device->save();
+
+        Session::flash('success', 'Device edited successfully!');
+
+        return redirect()->route('device.index');
     }
 
     /**
@@ -96,8 +108,12 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Device $device)
+    public function destroy($id)
     {
-        //
+        Device::destroy($id);
+
+        Session::flash('success', 'Device deleted!');
+
+        return redirect()->route('device.index');
     }
 }

@@ -21,9 +21,9 @@
                 <div class="panel-body">
                     {{--<a href="{{ route('device') }}"> My devices </a>--}}
                     <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button">Add new device</a>
-                    <a href="" class="btn btn-primary btn-lg" role="button">Your devices</a>
-                    <a href="" class="btn btn-primary btn-lg" role="button">Help</a>
-                    <a href="" class="btn btn-primary btn-lg" role="button">Contact</a>
+                    <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button">Your devices</a>
+                    <a href="{{ route('location.show') }}" class="btn btn-primary btn-lg" role="button">Location show</a>
+                    <a href="" class="btn btn-primary btn-lg" role="button">About</a>
                 </div>
 
 

@@ -26,13 +26,26 @@ Route::get('/home', 'HomeController@index')->name('home');
 //});
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::post('device/store', [
-        'uses' => 'DeviceController@store',
-        'as' =>  'device.store'
-    ]);
+//    Route::post('device/store', [
+//        'uses' => 'DeviceController@store',
+//        'as' =>  'device.store'
+//    ]);
+//
+//    Route::get('device/create', [
+//        'uses' => 'DeviceController@create',
+//        'as' => 'device.create'
+//    ]);
 
-    Route::get('device/create', [
-        'uses' => 'DeviceController@create',
-        'as' => 'device.create'
+
+    Route::resource('device', 'DeviceController');
+
+//    Route::get('devices', [
+//        'uses' => 'DeviceController@index',
+//        'as' => 'device.index'
+//    ]);
+
+    Route::get('location/show', [
+        'uses' => 'LocationController@show',
+        'as' => 'location.show'
     ]);
 });
