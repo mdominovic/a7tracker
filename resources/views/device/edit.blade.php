@@ -24,7 +24,7 @@
                                 <label for="contact_2">Contact #2</label>
                                 <input type="text" name="contact_2" value="{{ $device->contact_2 }}" class="form-control">
                                 <label for="contact_1">Contact #3</label>
-                                <input type="text" name="contact_1" value="{{ $device->contact_3 }}" class="form-control">
+                                <input type="text" name="contact_3" value="{{ $device->contact_3 }}" class="form-control">
                             </div>
 
                             <div class="form-group">

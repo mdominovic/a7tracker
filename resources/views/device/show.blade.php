@@ -29,7 +29,7 @@
                                             <a href="{{ route('location.show', ['id' => $device->id ]) }}">{{ $device->name }}</a>
                                         </td>
                                         <td>
-                                            <a href="{{ route('device.edit', ['device' => $device->id ]) }}" class="btn btn-xs btn-info">Edit</a>
+                                            <a href="{{ route('device.edit', ['id' => $device->id ]) }}" class="btn btn-xs btn-info">Edit</a>
                                         </td>
                                         <td>
                                             <form action="{{ route('device.destroy', ['device' => $device->id]) }}" method="post">

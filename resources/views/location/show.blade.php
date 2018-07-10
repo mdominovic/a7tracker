@@ -9,16 +9,16 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Name
+                            Name: {{ $device->name }}
                         </li>
                         <li class="list-group-item">
-                            Contact #1: 0991234567
+                            Contact #1: {{ $device->contact_1 }}
                         </li>
                         <li class="list-group-item">
-                            Contact #2: 0991234567
+                            Contact #2: {{ $device->contact_2 }}
                         </li>
                         <li class="list-group-item">
-                            Contact #3: 0991234567
+                            Contact #3: {{ $device->contact_3 }}
                         </li>
                     </ul>
                 </div>
@@ -26,20 +26,30 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            {{ $device->altitude }}
+                            Altitude: {{ $location->altitude }}
                         </li>
                         <li class="list-group-item">
-                            Speed: 4 km/h
+                            Speed: {{ $location->speed }} km/h
                         </li>
                         <li class="list-group-item">
-                            Satelittes: 4
+                            Satellites: {{ $location->satellites }}
                         </li>
                         <li class="list-group-item">
-                            Last update: 01-04-2018 15:38:42
+                            Last update: {{ $location->timestamp }}
                         </li>
                     </ul>
                 </div>
             </div>
+
+            {{--@foreach($location_array as $object)--}}
+                {{--{{ $object->altitude }} <br>--}}
+                {{--{{ $object->speed }}    <br>--}}
+                {{--{{ $object->satellites }}<br>--}}
+                {{--{{ $object->timestamp }}<br>--}}
+                {{--{{ $object->latitude }}<br>--}}
+                {{--{{ $object->longitude }}<br>--}}
+
+            {{--@endforeach--}}
 
             <div class="col-md-9">
 

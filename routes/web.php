@@ -44,8 +44,10 @@ Route::group(['middleware' => 'auth'], function () {
 //        'as' => 'device.index'
 //    ]);
 
-    Route::get('location/show', [
-        'uses' => 'LocationController@show',
-        'as' => 'location.show'
-    ]);
+//    Route::get('location/show/{id}', [
+//        'uses' => 'LocationController@show',
+//        'as' => 'location.show'
+//    ]);
+
+    Route::resource('location', 'LocationController');
 });

@@ -64,11 +64,11 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-        $device = Device::find($id);
+        $location = Location::where('device_id', $id)->first();
 
-        return view('location.show')->with('device', $device);
+        $location_array = Location::orderBy('id', 'desc')->take(5)->get();
 
-            //->with('best_answer', $best_answer);;
+        return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }
 
     /**
