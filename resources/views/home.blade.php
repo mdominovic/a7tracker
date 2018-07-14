@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -22,6 +23,7 @@
                     {{--<a href="{{ route('device') }}"> My devices </a>--}}
                     <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button">Add new device</a>
                     <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button">Your devices</a>
+                    <a href="{{ route('location.index') }}}" class="btn btn-primary btn-lg" role="button">Your Locations</a>
                     <a href="" class="btn btn-primary btn-lg" role="button">About</a>
                 </div>
 

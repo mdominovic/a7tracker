@@ -12,11 +12,47 @@
 
         <!-- Styles -->
         <style>
+            #first {
+                color: #fff;
+            }
+
+            #second {
+                color: red;
+            }
+
+            #sub1 {
+                color: #fff;
+                font-size: 19px;
+            }
+
+            #sub2 {
+                color: red;
+                font-size: 19px;
+            }
+            #bg {
+                position: fixed;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+            }
+            #bg img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                min-width: 50%;
+                min-height: 50%;
+            }
+
             html, body {
+                /*background: url('/css/images/home.png');*/
                 background-color: #fff;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
+                font-weight: 600;
                 height: 100vh;
                 margin: 0;
             }
@@ -65,6 +101,13 @@
         </style>
     </head>
     <body>
+
+
+    <div id="bg">
+        <img src="css/images/home.png" alt="">
+    </div>
+
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -79,15 +122,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <span id="first">A7trac</span><span id="second">ker</span>
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <span id="sub1">Your best personal trac</span><span id="sub2">ker</span>
                 </div>
             </div>
         </div>

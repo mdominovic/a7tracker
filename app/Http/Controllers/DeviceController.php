@@ -17,7 +17,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('device.show')->with('devices', Device::where('user_id', Auth::id())->get());
+        return view('device.index')->with('devices', Device::where('user_id', Auth::id())->get());
     }
 
     /**
