@@ -65,12 +65,13 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-        Mapper::map(45.55111, 18.69389, ['zoom' => 15, 'type' => 'HYBRID'])->circle([['latitude' => 45.55111, 'longitude' => 18.69389]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => 1000]);;
-
+        $device = Device::find($id);
 
         $location = Location::where('device_id', $id)->first();
 
         $location_array = Location::orderBy('id', 'desc')->take(5)->get();
+
+        Mapper::map($location->longitude, $location->latitude, ['zoom' => 15, 'type' => 'HYBRID'])->circle([['latitude' => $device->center_lng, 'longitude' => $device->center_lat]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
         return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }

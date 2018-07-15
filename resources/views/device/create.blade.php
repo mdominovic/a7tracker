@@ -23,9 +23,15 @@
                                 <label for="contact_2">Contact #2</label>
                                 <input type="text" name="contact_2" class="form-control">
                                 <label for="contact_1">Contact #3</label>
-                                <input type="text" name="contact_1" class="form-control">
+                                <input type="text" name="contact_3" class="form-control">
+                                <label for="center_lat">Home latitude</label>
+                                <input type="text" name="center_lat" class="form-control">
+                                <label for="center_lng">Home longitude</label>
+                                <input type="text" name="center_lng" class="form-control">
+                                <label for="radius">Radius</label>
+                                <input type="text" name="radius" class="form-control">
                             </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <div class="text-center">

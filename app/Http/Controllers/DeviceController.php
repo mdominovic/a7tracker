@@ -49,6 +49,12 @@ class DeviceController extends Controller
             'serial_number' => $request->serial_number,
             'imei' => $request->imei,
             'user_id' => Auth::id(),
+            'contact_1' => $request->contact_1,
+            'contact_2' => $request->contact_2,
+            'contact_3' => $request->contact_3,
+            'center_lat' => $request->center_lat,
+            'center_lng' => $request->center_lng,
+            'radius' => $request->radius,
         ]);
 
         Session::flash('success', 'Device has been added to your account!');
@@ -95,6 +101,9 @@ class DeviceController extends Controller
         $device->contact_1 = $request->contact_1;
         $device->contact_2 = $request->contact_2;
         $device->contact_3 = $request->contact_3;
+        $device->center_lat = $request->center_lat;
+        $device->center_lng = $request->center_lng;
+        $device->radius = $request->radius;
         $device->save();
 
         Session::flash('success', 'Device edited successfully!');
