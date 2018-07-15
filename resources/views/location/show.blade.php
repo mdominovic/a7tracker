@@ -73,6 +73,10 @@
 
                     <div class="panel-body">
                         {{--<div id="map" style="width: 800px; height: 400px;">&nbsp;</div>--}}
+
+                        <div style="width: auto; height: 500px;">
+                            {!! Mapper::render() !!}
+                        </div>
                     </div>
 
 

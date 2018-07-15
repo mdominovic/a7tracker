@@ -22,6 +22,8 @@ class CreateDevicesTable extends Migration
             $table->string('contact_1')->nullable();
             $table->string('contact_2')->nullable();
             $table->string('contact_3')->nullable();
+            $table->string('center');
+            $table->integer('radius');
             $table->timestamps();
         });
     }

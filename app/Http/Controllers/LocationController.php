@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mapper;
 use App\Device;
 use App\Location;
 use Illuminate\Http\Request;
@@ -64,6 +65,9 @@ class LocationController extends Controller
      */
     public function show($id)
     {
+        Mapper::map(45.55111, 18.69389, ['zoom' => 15, 'type' => 'HYBRID'])->circle([['latitude' => 45.55111, 'longitude' => 18.69389]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => 1000]);;
+
+
         $location = Location::where('device_id', $id)->first();
 
         $location_array = Location::orderBy('id', 'desc')->take(5)->get();
