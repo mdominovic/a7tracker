@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Auth;
+use Session;
+use Notification;
 use GuzzleHttp\Client;
 use Mapper;
 use App\Device;
@@ -45,6 +49,11 @@ class LocationController extends Controller
 
             $d = Device::where('serial_number', $data_array[6])->first();
 
+
+            $kita = $this->distance($d->id);
+
+            dd();
+
             $location = Location::create([
                 'longitude' => $data_array[0],
                 'latitude' => $data_array[1],
@@ -55,6 +64,23 @@ class LocationController extends Controller
                 'serial_number' => $data_array[6],
                 'device_id' => $d->id
             ]);
+
+
+
+
+//            if( $this->distance($d->id) > $d->radius ) {
+//
+//                $devices = array();
+//                $users = array();
+//
+//                $devices = Device::where('serial_number', $data_array[6])->get();
+//
+//                foreach($devices as $device) {
+//                    array_push($users, User::find($device->user_id));
+//                }
+//
+//                Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
+//            }
         }
     }
 
@@ -122,15 +148,27 @@ class LocationController extends Controller
         $client = new \GuzzleHttp\Client;
         $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lng . ', ' . $device->center_lat . '&destinations=' . $location->longitude . ', ' . $location->latitude . '&language=en-EN&key=AIzaSyArwnkumGSSbcGCPUWdJQ4ZepcT0v4lW48');
 
-//        echo $res->getStatusCode();
-//        echo $res->getHeaderLine('content-type');
         $json = $res->getBody();
+
 
         $string = json_decode($json, true);
 
-        dd($string['rows'][0]['elements'][0]['distance']['value']);
 
 
-        dd($res->getStatusCode(), $res->getHeaderLine('content-type'), $res->getBody());
+
+        if(array_key_exists( 'distance',$string)) {
+
+            $meters = $string['rows'][0]['elements'][0]['distance']['value'];
+            dd($meters);
+            return $meters;
+
+        } else {
+//            Session::flash('success', 'Longitude or latitude for Home location of this device is not set correctly.');
+//
+//            return redirect()->back();
+        }
+
+
+
     }
 }
