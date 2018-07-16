@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Mapper;
 use App\Device;
 use App\Location;
@@ -65,9 +66,11 @@ class LocationController extends Controller
      */
     public function show($id)
     {
+
+        $this->distance($id);
         $device = Device::find($id);
 
-        $location = Location::where('device_id', $id)->first();
+        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
         $location_array = Location::orderBy('id', 'desc')->take(5)->get();
 
@@ -108,5 +111,26 @@ class LocationController extends Controller
     public function destroy(Location $location)
     {
         //
+    }
+
+    public function distance($id) {
+
+        $device = Device::find($id);
+
+        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
+
+        $client = new \GuzzleHttp\Client;
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lng . ', ' . $device->center_lat . '&destinations=' . $location->longitude . ', ' . $location->latitude . '&language=en-EN&key=AIzaSyArwnkumGSSbcGCPUWdJQ4ZepcT0v4lW48');
+
+//        echo $res->getStatusCode();
+//        echo $res->getHeaderLine('content-type');
+        $json = $res->getBody();
+
+        $string = json_decode($json, true);
+
+        dd($string['rows'][0]['elements'][0]['distance']['value']);
+
+
+        dd($res->getStatusCode(), $res->getHeaderLine('content-type'), $res->getBody());
     }
 }
