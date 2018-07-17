@@ -57,7 +57,7 @@ class DeviceController extends Controller
             'radius' => $request->radius,
         ]);
 
-        Session::flash('success', 'Device has been added to your account!');
+        Session::flash('success', 'Device added succesfully!');
 
         return view('home');
     }
@@ -121,7 +121,7 @@ class DeviceController extends Controller
     {
         Device::destroy($id);
 
-        Session::flash('success', 'Device deleted!');
+        Session::flash('success', 'Device deleted succesfully!');
 
         return redirect()->route('device.index');
     }
