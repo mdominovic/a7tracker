@@ -37,22 +37,17 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store($data)
     {
         $data_array = explode("*", $data, 7);
 
-        if(Device::where('serial_number', $data_array[6])->first() !== null) {
+        if (Device::where('serial_number', $data_array[6])->first() !== null) {
             $data_ts = explode("--", $data_array[4], 2);
 
             $d = Device::where('serial_number', $data_array[6])->first();
-
-
-            $kita = $this->distance($d->id);
-
-            dd();
 
             $location = Location::create([
                 'longitude' => $data_array[0],
@@ -66,28 +61,29 @@ class LocationController extends Controller
             ]);
 
 
+            if ($this->distance($d->id) > $d->radius) {
 
+                $devices = Device::where('serial_number', $data_array[6])->get();
 
-//            if( $this->distance($d->id) > $d->radius ) {
-//
-//                $devices = array();
-//                $users = array();
-//
-//                $devices = Device::where('serial_number', $data_array[6])->get();
-//
-//                foreach($devices as $device) {
-//                    array_push($users, User::find($device->user_id));
-//                }
-//
-//                Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
-//            }
+                $users = array();
+
+                foreach ($devices as $device) {
+                    array_push($users, User::find($device->user_id));
+                }
+
+                //Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
+
+            } else {
+//                dd($this->distance($d->id),'didnt send');
+            }
+
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Location  $location
+     * @param  \App\Location $location
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -108,7 +104,7 @@ class LocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Location  $location
+     * @param  \App\Location $location
      * @return \Illuminate\Http\Response
      */
     public function edit(Location $location)
@@ -119,8 +115,8 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Location  $location
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Location $location
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Location $location)
@@ -131,7 +127,7 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Location  $location
+     * @param  \App\Location $location
      * @return \Illuminate\Http\Response
      */
     public function destroy(Location $location)
@@ -139,14 +135,15 @@ class LocationController extends Controller
         //
     }
 
-    public function distance($id) {
+    public function distance($id)
+    {
 
         $device = Device::find($id);
 
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
         $client = new \GuzzleHttp\Client;
-        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lng . ', ' . $device->center_lat . '&destinations=' . $location->longitude . ', ' . $location->latitude . '&language=en-EN&key=AIzaSyArwnkumGSSbcGCPUWdJQ4ZepcT0v4lW48');
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lat . ', ' . $device->center_lng . '&destinations=' . $location->latitude . ', ' . $location->longitude . '&language=en-EN&key=AIzaSyArwnkumGSSbcGCPUWdJQ4ZepcT0v4lW48');
 
         $json = $res->getBody();
 
@@ -154,20 +151,14 @@ class LocationController extends Controller
         $string = json_decode($json, true);
 
 
+        if (array_key_exists('distance', $string['rows'][0]['elements'][0])) {
 
-
-        if(array_key_exists( 'distance',$string)) {
-
-            $meters = $string['rows'][0]['elements'][0]['distance']['value'];
-            dd($meters);
-            return $meters;
+            return $string['rows'][0]['elements'][0]['distance']['value'];
 
         } else {
-//            Session::flash('success', 'Longitude or latitude for Home location of this device is not set correctly.');
-//
-//            return redirect()->back();
-        }
 
+            return 0;
+        }
 
 
     }
