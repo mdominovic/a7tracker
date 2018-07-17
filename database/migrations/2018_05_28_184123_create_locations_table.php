@@ -15,8 +15,8 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('longitude', 9, 6);
             $table->decimal('latitude', 9, 6);
+            $table->decimal('longitude', 9, 6);
             $table->decimal('speed', 5, 2);
             $table->decimal('altitude', 8, 3);
             $table->integer('satellites')->unsigned();

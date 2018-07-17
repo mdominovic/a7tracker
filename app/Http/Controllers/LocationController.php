@@ -50,8 +50,8 @@ class LocationController extends Controller
             $d = Device::where('serial_number', $data_array[6])->first();
 
             $location = Location::create([
-                'longitude' => $data_array[0],
-                'latitude' => $data_array[1],
+                'latitude' => $data_array[0],
+                'longitude' => $data_array[1],
                 'speed' => $data_array[2],
                 'altitude' => $data_array[3],
                 'timestamp' => $data_ts[0] . " " . $data_ts[1],
@@ -89,14 +89,13 @@ class LocationController extends Controller
     public function show($id)
     {
 
-        $this->distance($id);
         $device = Device::find($id);
 
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
         $location_array = Location::orderBy('id', 'desc')->take(5)->get();
 
-        Mapper::map($location->longitude, $location->latitude, ['zoom' => 15, 'type' => 'HYBRID'])->circle([['latitude' => $device->center_lng, 'longitude' => $device->center_lat]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
+        Mapper::map($location->latitude, $location->longitude, ['zoom' => 15, 'type' => 'HYBRID'])->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
         return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }
