@@ -97,6 +97,8 @@ class LocationController extends Controller
 
         Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
+//        Mapper::map(45.523610, 18.563330, ['zoom' => 11, 'type' => 'HYBRID']);
+
         return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }
 
@@ -142,7 +144,7 @@ class LocationController extends Controller
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
         $client = new \GuzzleHttp\Client;
-        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lat . ', ' . $device->center_lng . '&destinations=' . $location->latitude . ', ' . $location->longitude . '&language=en-EN&key=AIzaSyArwnkumGSSbcGCPUWdJQ4ZepcT0v4lW48');
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lat . ', ' . $device->center_lng . '&destinations=' . $location->latitude . ', ' . $location->longitude . '&language=en-EN&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
 
         $json = $res->getBody();
 

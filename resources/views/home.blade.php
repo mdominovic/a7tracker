@@ -2,6 +2,13 @@
 
 @section('content')
 
+    <style>
+        .hg {
+         width: 300px;
+        }
+
+    </style>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -21,10 +28,17 @@
 
                 <div class="panel-body">
                     {{--<a href="{{ route('device') }}"> My devices </a>--}}
-                    <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button">Add new device</a>
-                    <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button">Your devices</a>
-                    <a href="" class="btn btn-primary btn-lg" role="button">Your Locations</a>
-                    <a href="" class="btn btn-primary btn-lg" role="button">About</a>
+
+                    <div class="row">
+
+                        <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button">Add new device</a>
+                        <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button">Your devices</a>
+                    </div>
+                    <div class="row">
+                        <a href="" class="btn btn-primary btn-lg" role="button">Your Locations</a>
+                        <a href="" class="btn btn-primary btn-lg" role="button">About</a>
+                    </div>
+
                 </div>
 
 
