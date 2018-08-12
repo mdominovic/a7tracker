@@ -60,22 +60,36 @@ class LocationController extends Controller
                 'device_id' => $d->id
             ]);
 
-
             if ($this->distance($d->id) > $d->radius) {
 
                 $devices = Device::where('serial_number', $data_array[6])->get();
 
                 $users = array();
+                $phone_numbers = array();
 
                 foreach ($devices as $device) {
                     array_push($users, User::find($device->user_id));
+
+                    if(!is_null($device->contact_1)){
+                        array_push($phone_numbers, $device->contact_1);
+                    }
+
+                    if (!is_null($device->contact_2)){
+                        array_push($phone_numbers, $device->contact_2);
+                    }
+
+                    if (!is_null($device->contact_3)){
+                        array_push($phone_numbers, $device->contact_3);
+                    }
                 }
 
                 //Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
+                $this->sendSms($phone_numbers);
 
-            } else {
-//                dd($this->distance($d->id),'didnt send');
             }
+//            else {
+//                dd($this->distance($d->id),'didnt send');
+//            }
 
         }
     }
@@ -88,7 +102,6 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-
         $device = Device::find($id);
 
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
@@ -138,29 +151,39 @@ class LocationController extends Controller
 
     public function distance($id)
     {
-
         $device = Device::find($id);
 
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
+//        dd($device->center_lat, $device->center_lng, $location->latitude, $location->longitude);
+
         $client = new \GuzzleHttp\Client;
-        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lat . ', ' . $device->center_lng . '&destinations=' . $location->latitude . ', ' . $location->longitude . '&language=en-EN&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $device->center_lat . ',' . $device->center_lng . '&destinations=' . $location->latitude . ',' . $location->longitude . '&language=en-EN&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
 
         $json = $res->getBody();
 
-
         $string = json_decode($json, true);
 
-
         if (array_key_exists('distance', $string['rows'][0]['elements'][0])) {
-
             return $string['rows'][0]['elements'][0]['distance']['value'];
-
         } else {
-
             return 0;
+
+            //TODO: add email for bad latitude and longitude or ZERO_RESULTS
         }
+    }
+
+    public function sendSms($phone_numbers){
+        $basic  = new \Nexmo\Client\Credentials\Basic('4501eeb9', 'No7YbT9sxvzVW1UL');
+        $client = new \Nexmo\Client($basic);
 
 
+        foreach ($phone_numbers as $phone_number) {
+            $message = $client->message()->send([
+                'to' => $phone_number,
+                'from' => 'a7tracker',
+                'text' => 'Your device has left the boundaries.'
+            ]);
+        }
     }
 }
