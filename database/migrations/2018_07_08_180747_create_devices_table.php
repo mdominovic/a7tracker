@@ -25,6 +25,8 @@ class CreateDevicesTable extends Migration
             $table->string('center_lat');
             $table->string('center_lng');
             $table->integer('radius');
+            $table->boolean('message_sent')->default(false);
+            $table->dateTime('last_message_sent')->nullable();
             $table->timestamps();
         });
     }

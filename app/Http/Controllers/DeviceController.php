@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Session;
 use Notification;
+use Carbon\Carbon;
 use App\Device;
 use Illuminate\Http\Request;
 
@@ -124,5 +125,16 @@ class DeviceController extends Controller
         Session::flash('success', 'Device deleted succesfully!');
 
         return redirect()->route('device.index');
+    }
+
+    public static function messageSent($id, $state) {
+        $device = Device::find($id);
+
+        $device->message_sent = $state;
+        $device->last_message_sent = Carbon::now()->toDateTimeString();
+
+        $device->save();
+
+        return 0;
     }
 }

@@ -7,6 +7,7 @@ use Auth;
 use Session;
 use Notification;
 use GuzzleHttp\Client;
+use Carbon\Carbon;
 use Mapper;
 use App\Device;
 use App\Location;
@@ -81,15 +82,26 @@ class LocationController extends Controller
                     if (!is_null($device->contact_3)){
                         array_push($phone_numbers, $device->contact_3);
                     }
+
+                    if($device->message_sent === false && $device->last_message_sent > Carbon::now()->addHours(2)) {
+                        $m_sent = DeviceController::messageSent($device->id, true);
+                    }
                 }
 
-                //Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
-                $this->sendSms($phone_numbers);
+                if($device->message_sent === true) {
+                    //Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
+                    //$this->sendSms($phone_numbers);
+                }
+
+
 
             }
-//            else {
+            else {
 //                dd($this->distance($d->id),'didnt send');
-//            }
+                if($device->message_sent === true) {
+                    $m_sent = DeviceController::messageSent($d->id, false);
+                }
+            }
 
         }
     }
@@ -112,6 +124,10 @@ class LocationController extends Controller
 
 //        Mapper::map(45.523610, 18.563330, ['zoom' => 11, 'type' => 'HYBRID']);
 
+
+
+//        $date = Carbon::now()->toDateTimeString();
+//        dd(Carbon::now()->addHours(2) > $date);
         return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }
 
