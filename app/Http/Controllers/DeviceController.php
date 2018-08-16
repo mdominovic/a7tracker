@@ -131,10 +131,10 @@ class DeviceController extends Controller
         return redirect()->route('device.index');
     }
 
-    public static function messageSent($id, $state) {
+    public static function outOfBoundary($id, $state) {
         $device = Device::find($id);
 
-        $device->message_sent = $state;
+        $device->out_of_boundary = $state;
 
         if($state !== false) {
             $device->last_message_sent = Carbon::now()->toDateTimeString();

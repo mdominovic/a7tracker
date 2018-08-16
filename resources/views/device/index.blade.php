@@ -42,10 +42,11 @@
                                             </form>
                                         </td>
                                         <td>
-
+                                            @if(!$device->out_of_boundary)
                                             <div style="height: 20px; width: 20px; background-color: #7CFC00; border-radius: 50%; display: inline-block;"></div>
-
+                                            @else
                                             <div style="height: 20px; width: 20px; background-color: red; border-radius: 50%; display: inline-block;"></div>
+                                            @endif
                                         </td>
                                     </tr>
 

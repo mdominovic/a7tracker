@@ -83,14 +83,14 @@ class LocationController extends Controller
                         array_push($phone_numbers, $device->contact_3);
                     }
 
-                    if($device->message_sent !== true) {
-                        DeviceController::messageSent($device->id, true);
+                    if($device->out_of_boundary !== true) {
+                        DeviceController::outOfBoundary($device->id, true);
                     }
                 }
 
 //                dd($device->last_message_sent, Carbon::now(), Carbon::parse($device->last_message_sent), Carbon::parse($device->last_message_sent)->addHours(2));
 
-                if($d->message_sent !== false && Carbon::parse($device->last_message_sent)->addHours(2)->lt(Carbon::now())) {
+                if($d->out_of_boundary !== false && Carbon::parse($device->last_message_sent)->addHours(2)->lt(Carbon::now())) {
                     Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
                     //$this->sendSms($phone_numbers);
                 }
@@ -102,8 +102,8 @@ class LocationController extends Controller
 //                dd($this->distance($d->id),'didnt send');
 
 //                $m_sent = DeviceController::messageSent($d->id, false);
-                if($d->message_sent !== false) {
-                    $m_sent = DeviceController::messageSent($d->id, false);
+                if($d->out_of_boundary !== false) {
+                    $m_sent = DeviceController::outOfBoundary($d->id, false);
                 }
             }
 
