@@ -21,6 +21,9 @@
                                 <th>
                                     Delete
                                 </th>
+                                <th>
+                                    Status
+                                </th>
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
@@ -37,6 +40,12 @@
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-xs btn-danger" type="submit">Delete</button>
                                             </form>
+                                        </td>
+                                        <td>
+
+                                            <div style="height: 20px; width: 20px; background-color: #7CFC00; border-radius: 50%; display: inline-block;"></div>
+
+                                            <div style="height: 20px; width: 20px; background-color: red; border-radius: 50%; display: inline-block;"></div>
                                         </td>
                                     </tr>
 

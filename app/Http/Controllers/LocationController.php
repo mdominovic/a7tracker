@@ -90,7 +90,7 @@ class LocationController extends Controller
 
 //                dd($device->last_message_sent, Carbon::now(), Carbon::parse($device->last_message_sent), Carbon::parse($device->last_message_sent)->addHours(2));
 
-                if($d->message_sent !== false && Carbon::parse($device->last_message_sent)->addHours(2) < Carbon::now()) {
+                if($d->message_sent !== false && Carbon::parse($device->last_message_sent)->addHours(2)->lt(Carbon::now())) {
                     Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
                     //$this->sendSms($phone_numbers);
                 }

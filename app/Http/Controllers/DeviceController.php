@@ -42,7 +42,11 @@ class DeviceController extends Controller
         $this->validate($request, [
             'serial_number' => 'required',
             'imei' => 'required',
-            'name' => 'required'
+            'name' => 'required',
+            'contact_1' => 'required',
+            'center_lat' => 'required',
+            'center_lng' => 'required',
+            'radius' => 'required',
         ]);
 
         $device = Device::create([
