@@ -131,7 +131,10 @@ class DeviceController extends Controller
         $device = Device::find($id);
 
         $device->message_sent = $state;
-        $device->last_message_sent = Carbon::now()->toDateTimeString();
+
+        if($state !== false) {
+            $device->last_message_sent = Carbon::now()->toDateTimeString();
+        }
 
         $device->save();
 
