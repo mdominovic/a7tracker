@@ -116,6 +116,17 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $client = new \GuzzleHttp\Client;
+
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
+
+        $json = $res->getBody();
+
+        $string = json_decode($json, true);
+
+        $lat = $string['results'][0]['geometry']['location']['lat'];
+        $lng = $string['results'][0]['geometry']['location']['lng'];
+
         $device = Device::find($id);
 
         $device->name = $request->name;
@@ -124,8 +135,8 @@ class DeviceController extends Controller
         $device->contact_1 = $request->contact_1;
         $device->contact_2 = $request->contact_2;
         $device->contact_3 = $request->contact_3;
-        $device->center_lat = $request->center_lat;
-        $device->center_lng = $request->center_lng;
+        $device->center_lat = $lat;
+        $device->center_lng = $lng;
         $device->radius = $request->radius;
         $device->save();
 

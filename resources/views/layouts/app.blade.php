@@ -65,6 +65,17 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
+                                    <li>
+                                        <a href="{{ route('help') }}">
+                                            Help
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('about') }}">
+                                            About
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest

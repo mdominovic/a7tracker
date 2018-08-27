@@ -35,8 +35,8 @@
                         <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Your devices</a>
                     </div>
                     <div class="row">
-                        <a href="" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Help</a>
-                        <a href="" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">About</a>
+                        <a href="{{ route('help') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Help</a>
+                        <a href="{{ route('about') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">About</a>
                     </div>
 
                 </div>
