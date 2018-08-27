@@ -35,16 +35,10 @@
                             Satellites: {{ $location->satellites }}
                         </li>
 
-                        {{ Carbon\Carbon::parse($location->timestamp)->addMinutes(5)->gt(Carbon\Carbon::now()->addHours(2)) }}
-                        <br>
-
-                        {{ Carbon\Carbon::parse($location->timestamp)->addMinutes(5) }} <br>
-                        {{ Carbon\Carbon::now(+2) }}
-
-                        @if(Carbon\Carbon::parse($location->timestamp)->addMinutes(5)->gt(Carbon\Carbon::now(+2)))
+                        @if(Carbon\Carbon::parse($location->timestamp)->addMinutes(5) > Carbon\Carbon::now()->addHours(2))
                         <li class="list-group-item" >
                         @else
-                        <li class="list-group-item" style="background-color: red; color: white;">
+                        <li class="list-group-item" style="background-color: #DC143C; color: white;">
                         @endif
                             Last update: {{ $location->timestamp }}
                         </li>

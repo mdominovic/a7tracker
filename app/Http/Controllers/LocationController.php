@@ -103,7 +103,7 @@ class LocationController extends Controller
 
 //                $m_sent = DeviceController::messageSent($d->id, false);
                 if($d->out_of_boundary !== false) {
-                    $m_sent = DeviceController::outOfBoundary($d->id, false);
+                    DeviceController::outOfBoundary($d->id, false);
                 }
             }
 
