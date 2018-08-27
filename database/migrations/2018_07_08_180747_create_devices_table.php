@@ -27,6 +27,7 @@ class CreateDevicesTable extends Migration
             $table->integer('radius');
             $table->boolean('out_of_boundary')->default(false);
             $table->dateTime('last_message_sent')->nullable();
+            $table->string('home_location');
             $table->timestamps();
         });
     }

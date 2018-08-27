@@ -25,10 +25,16 @@
                                 <input type="text" name="contact_2" value="{{ $device->contact_2 }}" class="form-control">
                                 <label for="contact_1">Contact #3</label>
                                 <input type="text" name="contact_3" value="{{ $device->contact_3 }}" class="form-control">
-                                <label for="center_lat">Home latitude</label>
-                                <input type="text" name="center_lat" value="{{ $device->center_lat }}" class="form-control">
-                                <label for="center_lng">Home longitude</label>
-                                <input type="text" name="center_lng" value="{{ $device->center_lng }}" class="form-control">
+
+                                {{--<label for="center_lat">Home latitude</label>--}}
+                                {{--<input type="text" name="center_lat" value="{{ $device->center_lat }}" class="form-control">--}}
+                                {{--<label for="center_lng">Home longitude</label>--}}
+                                {{--<input type="text" name="center_lng" value="{{ $device->center_lng }}" class="form-control">--}}
+
+
+                                <label for="location">Home location</label>
+                                <input name="location" type="text" value="{{ $device->home_location }}" id="txtPlaces" class="form-control">
+
                                 <label for="radius">Radius</label>
                                 <input type="text" name="radius" value="{{ $device->radius }}" class="form-control">
                             </div>
@@ -47,3 +53,13 @@
         </div>
     </div>
 @endsection
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E&libraries=places"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+
+        });
+    });
+</script>

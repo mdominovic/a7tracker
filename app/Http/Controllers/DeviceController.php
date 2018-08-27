@@ -8,6 +8,7 @@ use Notification;
 use Carbon\Carbon;
 use App\Device;
 use Illuminate\Http\Request;
+use Mapper;
 
 class DeviceController extends Controller
 {
@@ -39,13 +40,27 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
+
+        $client = new \GuzzleHttp\Client;
+
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
+
+        $json = $res->getBody();
+
+        $string = json_decode($json, true);
+
+        $lat = $string['results'][0]['geometry']['location']['lat'];
+        $lng = $string['results'][0]['geometry']['location']['lng'];
+
+
         $this->validate($request, [
             'serial_number' => 'required',
             'imei' => 'required',
             'name' => 'required',
             'contact_1' => 'required',
-            'center_lat' => 'required',
-            'center_lng' => 'required',
+//            'center_lat' => 'required',
+//            'center_lng' => 'required',
+
             'radius' => 'required',
         ]);
 
@@ -57,9 +72,12 @@ class DeviceController extends Controller
             'contact_1' => $request->contact_1,
             'contact_2' => $request->contact_2,
             'contact_3' => $request->contact_3,
-            'center_lat' => $request->center_lat,
-            'center_lng' => $request->center_lng,
+            'center_lat' => $lat,
+//                $request->center_lat,
+            'center_lng' => $lng,
+//                $request->center_lng,
             'radius' => $request->radius,
+            'home_location' => $request->location,
         ]);
 
         Session::flash('success', 'Device added succesfully!');
