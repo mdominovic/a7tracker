@@ -11,14 +11,30 @@
                         <li class="list-group-item">
                             Name: {{ $device->name }}
                         </li>
+
+                        @if(!is_null($device->contact_1))
                         <li class="list-group-item">
                             Contact #1: {{ $device->contact_1 }}
                         </li>
+                        @endif
+
+                        @if(!is_null($device->contact_2))
                         <li class="list-group-item">
                             Contact #2: {{ $device->contact_2 }}
                         </li>
+                        @endif
+
+                        @if(!is_null($device->contact_3))
                         <li class="list-group-item">
                             Contact #3: {{ $device->contact_3 }}
+                        </li>
+                        @endif
+
+                        <li class="list-group-item">
+                            Home location: {{ $device->home_location }}
+                        </li>
+                        <li class="list-group-item">
+                            Boundary radius: {{ $device->radius }}
                         </li>
                     </ul>
                 </div>
@@ -63,7 +79,7 @@
                 <div class="panel panel-default">
 
 
-                    <div class="panel-heading">Dashboard</div>
+                    <div class="panel-heading">Location</div>
 
 
 

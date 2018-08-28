@@ -55,17 +55,15 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
+                                        <a href="{{ route('device.index') }}">
+                                            Your devices
                                         </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
                                     </li>
-
+                                    <li>
+                                        <a href="{{ route('home') }}">
+                                            Home
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ route('help') }}">
                                             Help
@@ -76,6 +74,18 @@
                                             About
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            <strong>Logout</strong>
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+
                                 </ul>
                             </li>
                         @endguest
