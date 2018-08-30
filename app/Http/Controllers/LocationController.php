@@ -124,7 +124,17 @@ class LocationController extends Controller
 
         $location_array = Location::orderBy('id', 'desc')->take(5)->get();
 
-        Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
+//        dd($location_array[0]->latitude);
+
+        Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])
+            ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]], ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius])
+//            ->circle([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude]], ['strokeColor' => '#000', 'strokeOpacity' => 1, 'strokeWeight' => 1, 'fillColor' => '#000', 'radius' => 50])
+//            ->circle([['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude]], ['strokeColor' => '#000', 'strokeOpacity' => 1, 'strokeWeight' => 1, 'fillColor' => '#000', 'radius' => 50])
+//            ->circle([['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude]], ['strokeColor' => '#000', 'strokeOpacity' => 1, 'strokeWeight' => 1, 'fillColor' => '#000', 'radius' => 50])
+//            ->circle([['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude]], ['strokeColor' => '#000', 'strokeOpacity' => 1, 'strokeWeight' => 1, 'fillColor' => '#000', 'radius' => 50])
+//            ->circle([['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude]], ['strokeColor' => '#000', 'strokeOpacity' => 1, 'strokeWeight' => 1, 'fillColor' => '#000', 'radius' => 50]);
+            ->polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude], ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude], ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude], ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],  ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude], ['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude],  ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude], ['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude]]);
+
 
 //        Mapper::map(45.523610, 18.563330, ['zoom' => 11, 'type' => 'HYBRID']);
 
