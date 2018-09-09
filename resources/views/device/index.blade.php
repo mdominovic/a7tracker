@@ -29,7 +29,7 @@
                                 @foreach($devices as $device)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('location.show', ['id' => $device->id ]) }}">{{ $device->name }}</a>
+                                            <a href="{{ route('device.show', ['id' => $device->id ]) }}">{{ $device->name }}</a>
                                         </td>
                                         <td>
                                             <a href="{{ route('device.edit', ['id' => $device->id ]) }}" class="btn btn-xs btn-info">Edit</a>

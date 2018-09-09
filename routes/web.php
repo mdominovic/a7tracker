@@ -51,5 +51,5 @@ Route::group(['middleware' => 'auth'], function () {
 //        'as' => 'location.show'
 //    ]);
 
-    Route::resource('location', 'LocationController');
+//    Route::resource('location', 'LocationController');
 });

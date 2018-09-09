@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Auth;
 use Session;
 use Notification;
 use Carbon\Carbon;
 use App\Device;
+use App\Location;
 use Illuminate\Http\Request;
 use Mapper;
 
@@ -91,9 +93,27 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function show(Device $device)
+    public function show($id)
     {
-        //
+        $device = Device::find($id);
+
+        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
+
+        $location_array = Location::orderBy('id', 'desc')->take(5)->get();
+
+        Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])
+            ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
+                ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
+
+        if(count($location_array) <= 5) {
+            Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
+                ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
+                ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
+                ['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude],
+                ['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude]]);
+        }
+
+        return view('device.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
     }
 
     /**

@@ -92,7 +92,7 @@ class LocationController extends Controller
 
                 if($d->out_of_boundary !== false && Carbon::parse($device->last_message_sent)->addHours(2)->lt(Carbon::now())) {
                     Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
-                    //$this->sendSms($phone_numbers);
+//                    $this->sendSms($phone_numbers);
                 }
 
 
@@ -116,27 +116,9 @@ class LocationController extends Controller
      * @param  \App\Location $location
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $device = Device::find($id);
-
-        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
-
-        $location_array = Location::orderBy('id', 'desc')->take(5)->get();
-
-        Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])
-            ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
-                ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
-
-        if(count($location_array) < 5) {
-            Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
-                ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
-                ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
-                ['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude],
-                ['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude]]);
-        }
-
-        return view('location.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
+        //
     }
 
     /**
