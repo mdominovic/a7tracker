@@ -21,7 +21,20 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('device.index')->with('devices', Device::where('user_id', Auth::id())->get());
+        $user = User::find(Auth::id());
+
+        $devices = $user->devices()->get();
+
+//        $owner_devices = Device::where('owner_id', '=', Auth::id())->get();
+//
+//        foreach($owner_devices as $owner_device){
+//            $devices->push($owner_device);
+//        }
+//
+//
+//        dd($devices);
+
+        return view('device.index')->with('devices', $devices);
     }
 
     /**
@@ -42,7 +55,6 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-
         $client = new \GuzzleHttp\Client;
 
         $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
@@ -53,7 +65,6 @@ class DeviceController extends Controller
 
         $lat = $string['results'][0]['geometry']['location']['lat'];
         $lng = $string['results'][0]['geometry']['location']['lng'];
-
 
         $this->validate($request, [
             'serial_number' => 'required',
@@ -70,7 +81,7 @@ class DeviceController extends Controller
             'name' => $request->name,
             'serial_number' => $request->serial_number,
             'imei' => $request->imei,
-            'user_id' => Auth::id(),
+            'owner_id' => Auth::id(),
             'contact_1' => $request->contact_1,
             'contact_2' => $request->contact_2,
             'contact_3' => $request->contact_3,
@@ -81,6 +92,8 @@ class DeviceController extends Controller
             'radius' => $request->radius,
             'home_location' => $request->location,
         ]);
+
+        $device->users()->attach(Auth::id());
 
         Session::flash('success', 'Device added succesfully!');
 
@@ -136,6 +149,11 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(empty(Device::where('serial_number', '=', $request->serial_number)->first())){
+            Session::flash('error', 'Device with that Serial Number is not found.');
+            return redirect()->back();
+        }
+
         $client = new \GuzzleHttp\Client;
 
         $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
@@ -192,5 +210,28 @@ class DeviceController extends Controller
         $device->save();
 
         return 0;
+    }
+
+
+    public function connect(){
+        return view('device.connect');
+    }
+
+    public function connectToExisting(Request $request){
+
+        $device = Device::where('serial_number', '=', $request->serial_number)->first();
+
+        if(empty($device)){
+            Session::flash('error', 'Device with that Serial Number is not found.');
+            return redirect()->back();
+        }
+
+        $user = User::find(Auth::id());
+
+        $user->devices()->attach($device->id);
+
+        Session::flash('success', 'Existing device added succesfully!');
+
+        return view('home');
     }
 }

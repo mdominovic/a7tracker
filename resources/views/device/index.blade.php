@@ -26,26 +26,37 @@
                                 </th>
                             </thead>
                             <tbody>
+
+
                                 @foreach($devices as $device)
                                     <tr>
                                         <td>
                                             <a href="{{ route('device.show', ['id' => $device->id ]) }}">{{ $device->name }}</a>
                                         </td>
+
                                         <td>
+                                            @if($device->owner_id === Auth::id())
                                             <a href="{{ route('device.edit', ['id' => $device->id ]) }}" class="btn btn-xs btn-info">Edit</a>
+                                            @endif
                                         </td>
                                         <td>
+                                            @if($device->owner_id === Auth::id())
                                             <form action="{{ route('device.destroy', ['device' => $device->id]) }}" method="post">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-xs btn-danger" type="submit">Delete</button>
                                             </form>
+                                            @endif
                                         </td>
+
+
                                         <td>
                                             @if(!$device->out_of_boundary)
                                             <div style="height: 20px; width: 20px; background-color: #7CFC00; border-radius: 50%; display: inline-block;"></div>
-                                            @else
+                                            @elseif($device->out_of_boundary)
                                             <div style="height: 20px; width: 20px; background-color: red; border-radius: 50%; display: inline-block;"></div>
+                                            {{--@else--}}
+                                                {{--<div style="height: 20px; width: 20px; background-color: grey; border-radius: 50%; display: inline-block;"></div>--}}
                                             @endif
                                         </td>
                                     </tr>

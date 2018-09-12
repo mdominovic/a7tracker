@@ -15,19 +15,19 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('serial_number');
             $table->string('imei');
-            $table->integer('user_id')->unsigned();
+            $table->integer('owner_id')->unsigned();
             $table->string('contact_1')->nullable();
             $table->string('contact_2')->nullable();
             $table->string('contact_3')->nullable();
-            $table->string('center_lat');
-            $table->string('center_lng');
-            $table->integer('radius');
+            $table->string('center_lat')->nullable();
+            $table->string('center_lng')->nullable();
+            $table->integer('radius')->nullable();
             $table->boolean('out_of_boundary')->default(false);
             $table->dateTime('last_message_sent')->nullable();
-            $table->string('home_location');
+            $table->string('home_location')->nullable();
             $table->timestamps();
         });
     }

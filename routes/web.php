@@ -41,6 +41,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('device', 'DeviceController');
 
+    Route::get('connect/device', [
+        'uses' => 'DeviceController@connect',
+        'as' => 'device.connect'
+    ]);
+
+    Route::post('connect/device/put', [
+        'uses' => 'DeviceController@connectToExisting',
+        'as' => 'device.connectToExisting'
+    ]);
+
 //    Route::get('devices', [
 //        'uses' => 'DeviceController@index',
 //        'as' => 'device.index'

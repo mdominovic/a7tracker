@@ -27,13 +27,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function device()
-    {
-        return $this->hasMany('App\Device');
-    }
-
-//    public function devices()
+//    public function device()
 //    {
-//        return $this->belongsToMany('App\Device');
+//        return $this->hasMany('App\Device');
 //    }
+
+    public function devices()
+    {
+        return $this->belongsToMany('App\Device')->withTimestamps();
+    }
 }

@@ -30,13 +30,12 @@
                     {{--<a href="{{ route('device') }}"> My devices </a>--}}
 
                     <div class="row">
-
                         <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%;">Add new device</a>
                         <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Your devices</a>
                     </div>
                     <div class="row">
                         <a href="{{ route('help') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Help</a>
-                        <a href="{{ route('about') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">About</a>
+                        <a href="{{ route('device.connect') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Connect to existing device</a>
                     </div>
 
                 </div>
