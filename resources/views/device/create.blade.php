@@ -16,8 +16,8 @@
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                                 <label for="serial_number">Serial number</label>
                                 <input type="text" name="serial_number" value="{{ old('serial_number') }}" class="form-control">
-                                <label for="imei">IMEI</label>
-                                <input type="text" name="imei" value="{{ old('imei') }}" class="form-control">
+                                {{--<label for="imei">IMEI</label>--}}
+                                {{--<input type="text" name="imei" value="{{ old('imei') }}" class="form-control">--}}
                                 <label for="contact_1">Contact #1</label>
                                 <input type="text" name="contact_1" value="{{ old('contact_1') }}" class="form-control">
                                 <label for="contact_2">Contact #2</label>
@@ -31,8 +31,8 @@
                                 {{--<input type="text" name="center_lng" value="{{ old('center_lng') }}" class="form-control">--}}
 
 
-                                <label for="location">Home location</label>
-                                <input name="location" type="text" id="txtPlaces" class="form-control">
+                                <label for="home_location">Home location</label>
+                                <input name="home_location" type="text" id="txtPlaces" class="form-control">
 
                                 <label for="radius">Radius</label>
                                 <input type="text" name="radius" value="{{ old('radius') }}" class="form-control">

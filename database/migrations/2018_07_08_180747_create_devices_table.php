@@ -18,7 +18,7 @@ class CreateDevicesTable extends Migration
             $table->string('name')->nullable();
             $table->string('serial_number');
             $table->string('imei');
-            $table->integer('owner_id')->unsigned();
+            $table->integer('owner_id')->unsigned()->nullable();
             $table->string('contact_1')->nullable();
             $table->string('contact_2')->nullable();
             $table->string('contact_3')->nullable();

@@ -15,10 +15,10 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" value="{{ $device->name }}" class="form-control">
-                                <label for="serial_number">Serial number</label>
-                                <input type="text" name="serial_number" value="{{ $device->serial_number }}" class="form-control">
-                                <label for="imei">IMEI</label>
-                                <input type="text" name="imei" value="{{ $device->imei }}" class="form-control">
+                                {{--<label for="serial_number">Serial number</label>--}}
+                                {{--<input type="text" name="serial_number" value="{{ $device->serial_number }}" class="form-control">--}}
+                                {{--<label for="imei">IMEI</label>--}}
+                                {{--<input type="text" name="imei" value="{{ $device->imei }}" class="form-control">--}}
                                 <label for="contact_1">Contact #1</label>
                                 <input type="text" name="contact_1" value="{{ $device->contact_1 }}" class="form-control">
                                 <label for="contact_2">Contact #2</label>
@@ -32,8 +32,8 @@
                                 {{--<input type="text" name="center_lng" value="{{ $device->center_lng }}" class="form-control">--}}
 
 
-                                <label for="location">Home location</label>
-                                <input name="location" type="text" value="{{ $device->home_location }}" id="txtPlaces" class="form-control">
+                                <label for="home_location">Home location</label>
+                                <input name="home_location" type="text" value="{{ $device->home_location }}" id="txtPlaces" class="form-control">
 
                                 <label for="radius">Radius</label>
                                 <input type="text" name="radius" value="{{ $device->radius }}" class="form-control">

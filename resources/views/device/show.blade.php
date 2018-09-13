@@ -39,6 +39,8 @@
                     </ul>
                 </div>
 
+
+                @if(!empty($location))
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -60,6 +62,7 @@
                         </li>
                     </ul>
                 </div>
+                @endif
             </div>
 
             {{--@foreach($location_array as $object)--}}

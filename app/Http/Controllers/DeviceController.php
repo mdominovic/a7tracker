@@ -50,14 +50,14 @@ class DeviceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $client = new \GuzzleHttp\Client;
 
-        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->home_location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
 
         $json = $res->getBody();
 
@@ -68,30 +68,56 @@ class DeviceController extends Controller
 
         $this->validate($request, [
             'serial_number' => 'required',
-            'imei' => 'required',
+//            'imei' => 'required',
             'name' => 'required',
             'contact_1' => 'required',
 //            'center_lat' => 'required',
 //            'center_lng' => 'required',
 
             'radius' => 'required',
+            'home_location' => 'required',
         ]);
 
-        $device = Device::create([
-            'name' => $request->name,
-            'serial_number' => $request->serial_number,
-            'imei' => $request->imei,
-            'owner_id' => Auth::id(),
-            'contact_1' => $request->contact_1,
-            'contact_2' => $request->contact_2,
-            'contact_3' => $request->contact_3,
-            'center_lat' => $lat,
-//                $request->center_lat,
-            'center_lng' => $lng,
-//                $request->center_lng,
-            'radius' => $request->radius,
-            'home_location' => $request->location,
-        ]);
+        $device = Device::where('serial_number', '=', $request->serial_number)->first();
+
+        if (empty($device)) {
+            Session::flash('error', 'Device with serial number ' . $request->serial_number . ' is not found.');
+
+            return redirect()->back();
+        }
+
+        if (!empty($device->owner_id)) {
+            Session::flash('error', 'Owner of device with serial number ' . $request->serial_number . ' already exitsts.');
+
+            return redirect()->back();
+        }
+
+        $device->name = $request->name;
+        $device->contact_1 = $request->contact_1;
+        $device->contact_2 = $request->contact_2;
+        $device->contact_3 = $request->contact_3;
+        $device->center_lat = $lat;
+        $device->center_lng = $lng;
+        $device->owner_id = Auth::id();
+        $device->radius = $request->radius;
+        $device->home_location = $request->home_location;
+        $device->save();
+
+//        $device = Device::create([
+//            'name' => $request->name,
+//            'serial_number' => $request->serial_number,
+//            'imei' => $request->imei,
+//            'owner_id' => Auth::id(),
+//            'contact_1' => $request->contact_1,
+//            'contact_2' => $request->contact_2,
+//            'contact_3' => $request->contact_3,
+//            'center_lat' => $lat,
+////                $request->center_lat,
+//            'center_lng' => $lng,
+////                $request->center_lng,
+//            'radius' => $request->radius,
+//            'home_location' => $request->location,
+//        ]);
 
         $device->users()->attach(Auth::id());
 
@@ -103,7 +129,7 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Device  $device
+     * @param  \App\Device $device
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -112,13 +138,21 @@ class DeviceController extends Controller
 
         $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
 
-        $location_array = Location::orderBy('id', 'desc')->take(5)->get();
+        $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->take(5)->get();
+
+        if (empty($location)) {
+            Session::flash('error', 'No location data to show.');
+            Mapper::map($device->center_lat, $device->center_lng, ['zoom' => 11, 'type' => 'ROADMAP'])
+                ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
+                    ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
+            return view('device.show')->with('device', Device::find($id));
+        }
 
         Mapper::map($location->latitude, $location->longitude, ['zoom' => 11, 'type' => 'ROADMAP'])
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
-        if(count($location_array) <= 5) {
+        if (count($location_array) <= 5) {
             Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
                 ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
                 ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
@@ -132,7 +166,7 @@ class DeviceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Device  $device
+     * @param  \App\Device $device
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -143,20 +177,15 @@ class DeviceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Device  $device
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Device $device
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if(empty(Device::where('serial_number', '=', $request->serial_number)->first())){
-            Session::flash('error', 'Device with that Serial Number is not found.');
-            return redirect()->back();
-        }
-
         $client = new \GuzzleHttp\Client;
 
-        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
+        $res = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $request->home_location . '&key=AIzaSyDggCeAeLImQC-_UVJmlMSiWSDTgTeor5E');
 
         $json = $res->getBody();
 
@@ -169,13 +198,14 @@ class DeviceController extends Controller
 
         $device->name = $request->name;
         $device->serial_number = $request->serial_number;
-        $device->imei = $request->imei;
+//        $device->imei = $request->imei;
         $device->contact_1 = $request->contact_1;
         $device->contact_2 = $request->contact_2;
         $device->contact_3 = $request->contact_3;
         $device->center_lat = $lat;
         $device->center_lng = $lng;
         $device->radius = $request->radius;
+        $device->home_location = $request->home_location;
         $device->save();
 
         Session::flash('success', 'Device edited successfully!');
@@ -186,24 +216,30 @@ class DeviceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Device  $device
+     * @param  \App\Device $device
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Device::destroy($id);
+        $device = Device::find($id);
+
+        $device->users()->detach(Auth::id());
+
+        $device->owner_id = null;
+        $device->save();
 
         Session::flash('success', 'Device deleted succesfully!');
 
         return redirect()->route('device.index');
     }
 
-    public static function outOfBoundary($id, $state) {
+    public static function outOfBoundary($id, $state)
+    {
         $device = Device::find($id);
 
         $device->out_of_boundary = $state;
 
-        if($state !== false) {
+        if ($state !== false) {
             $device->last_message_sent = Carbon::now()->toDateTimeString();
         }
 
@@ -213,15 +249,17 @@ class DeviceController extends Controller
     }
 
 
-    public function connect(){
+    public function connect()
+    {
         return view('device.connect');
     }
 
-    public function connectToExisting(Request $request){
+    public function connectToExisting(Request $request)
+    {
 
         $device = Device::where('serial_number', '=', $request->serial_number)->first();
 
-        if(empty($device)){
+        if (empty($device)) {
             Session::flash('error', 'Device with that Serial Number is not found.');
             return redirect()->back();
         }
