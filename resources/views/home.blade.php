@@ -2,13 +2,6 @@
 
 @section('content')
 
-    <style>
-        .hg {
-         width: 300px;
-        }
-
-    </style>
-
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -26,18 +19,24 @@
                 {{--</div>--}}
 
 
-                <div class="panel-body">
-                    {{--<a href="{{ route('device') }}"> My devices </a>--}}
-
+                <div class="panel-body ">
                     <div class="row">
-                        <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%;">Add new device</a>
-                        <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Your devices</a>
-                    </div>
-                    <div class="row">
-                        <a href="{{ route('help') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Help</a>
-                        <a href="{{ route('device.connect') }}" class="btn btn-primary btn-lg" role="button" style="float: right; margin: 10px 7px; width: 48%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Connect to existing device</a>
+                        <div class="col-md-6">
+                            <a href="{{ route('device.index') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px auto;width: 100%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Your devices</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('help') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px auto;width: 100%; height: 150px; text-align: center; line-height: 125px; font-size: 200%">Help</a>
+                        </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{ route('device.create') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px auto; width: 100%; height: 150px; text-align: center; line-height: 125px; font-size: 200%;">Add new device</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('device.connect') }}" class="btn btn-primary btn-lg" role="button" style="margin: 10px auto;width: 100%; height: 150px; text-align: center; line-height: 125px; font-size: 180%">Connect to device</a>
+                        </div>
+                    </div>
                 </div>
 
 
