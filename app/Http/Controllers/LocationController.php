@@ -43,12 +43,20 @@ class LocationController extends Controller
      */
     public function store($data)
     {
+
+        $req_dump = print_r($data, TRUE);
+        $fp = fopen('request.log', 'a');
+        fwrite($fp, $req_dump);
+        fclose($fp);
+
         $data_array = explode("*", $data, 7);
 
         if (Device::where('serial_number', $data_array[6])->first() !== null) {
             $data_ts = explode("--", $data_array[4], 2);
 
             $d = Device::where('serial_number', $data_array[6])->first();
+
+            $d->touch();
 
             $location = Location::create([
                 'latitude' => $data_array[0],

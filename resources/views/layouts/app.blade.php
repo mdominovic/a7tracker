@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 </head>
+
+<style>
+    .vl {
+        border-left: 6px solid green;
+        height: 500px;
+    }
+</style>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
@@ -48,22 +55,24 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+
+                            <li>
+                                <a href="{{ route('device.index') }}">
+                                    Your devices
+                                </a>
+
+                            <li>
+                                <a href="{{ route('home') }}">
+                                    Home
+                                </a>
+                            </li>
+                            </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre style="text-">
+                                   <strong>{{ Auth::user()->name }}</strong> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('device.index') }}">
-                                            Your devices
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('home') }}">
-                                            Home
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="{{ route('help') }}">
                                             Help

@@ -25,15 +25,6 @@ class DeviceController extends Controller
 
         $devices = $user->devices()->get();
 
-//        $owner_devices = Device::where('owner_id', '=', Auth::id())->get();
-//
-//        foreach($owner_devices as $owner_device){
-//            $devices->push($owner_device);
-//        }
-//
-//
-//        dd($devices);
-
         return view('device.index')->with('devices', $devices);
     }
 
@@ -152,7 +143,7 @@ class DeviceController extends Controller
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
-        if (count($location_array) <= 5) {
+        if (count($location_array) == 5) {
             Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
                 ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
                 ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
@@ -197,7 +188,7 @@ class DeviceController extends Controller
         $device = Device::find($id);
 
         $device->name = $request->name;
-        $device->serial_number = $request->serial_number;
+//        $device->serial_number = $request->serial_number;
 //        $device->imei = $request->imei;
         $device->contact_1 = $request->contact_1;
         $device->contact_2 = $request->contact_2;
@@ -225,8 +216,10 @@ class DeviceController extends Controller
 
         $device->users()->detach(Auth::id());
 
-        $device->owner_id = null;
-        $device->save();
+        if($device->owner_id === Auth::id()){
+            $device->owner_id = null;
+            $device->save();
+        }
 
         Session::flash('success', 'Device deleted succesfully!');
 
