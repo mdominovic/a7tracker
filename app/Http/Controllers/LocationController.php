@@ -45,10 +45,10 @@ class LocationController extends Controller
     {
         $data_array = explode("*", $data, 7);
 
-        if (Device::where('serial_number', $data_array[6])->first() !== null) {
-            $data_ts = explode("--", $data_array[4], 2);
+        if (Device::where('serial_number', $data_array[5])->first() !== null) {
+//            $data_ts = explode("--", $data_array[4], 2);
 
-            $d = Device::where('serial_number', $data_array[6])->first();
+            $d = Device::where('serial_number', $data_array[5])->first();
 
             $d->touch();
 
@@ -57,15 +57,15 @@ class LocationController extends Controller
                 'longitude' => $data_array[1],
                 'speed' => $data_array[2],
                 'altitude' => $data_array[3],
-                'timestamp' => $data_ts[0] . " " . $data_ts[1],
-                'satellites' => $data_array[5],
-                'serial_number' => $data_array[6],
+//                'timestamp' => $data_ts[0] . " " . $data_ts[1],
+                'satellites' => $data_array[4],
+                'serial_number' => $data_array[5],
                 'device_id' => $d->id
             ]);
 
             if ($this->distance($d->id) > $d->radius) {
 
-                $devices = Device::where('serial_number', $data_array[6])->get();
+                $devices = Device::where('serial_number', $data_array[5])->get();
 
                 $users = array();
                 $phone_numbers = array();
@@ -161,7 +161,7 @@ class LocationController extends Controller
     {
         $device = Device::find($id);
 
-        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
+        $location = Location::where('device_id', $id)->orderby('created_at', 'desc')->first();
 
 //        dd($device->center_lat, $device->center_lng, $location->latitude, $location->longitude);
 

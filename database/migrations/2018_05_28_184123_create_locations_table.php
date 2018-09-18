@@ -20,7 +20,6 @@ class CreateLocationsTable extends Migration
             $table->decimal('speed', 5, 2);
             $table->decimal('altitude', 8, 3);
             $table->integer('satellites')->unsigned();
-            $table->dateTime('timestamp');
             $table->string('serial_number');
             $table->integer('device_id');
             $table->timestamps();

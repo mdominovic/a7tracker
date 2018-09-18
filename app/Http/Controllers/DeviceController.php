@@ -127,7 +127,7 @@ class DeviceController extends Controller
     {
         $device = Device::find($id);
 
-        $location = Location::where('device_id', $id)->orderby('timestamp', 'desc')->first();
+        $location = Location::where('device_id', $id)->orderby('created_at', 'desc')->first();
 
         $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->take(5)->get();
 
