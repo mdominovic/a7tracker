@@ -56,7 +56,7 @@
                         @if(Carbon\Carbon::parse($location->created_at)->addHours(2)->addMinutes(15) > Carbon\Carbon::now()->addHours(2))
                         <li class="list-group-item" >
                         @else
-                        <li class="list-group-item" style="background-color: #DC143C; color: white;">
+                        <li class="list-group-item" style="background-color: grey; color: white;">
                         @endif
                             Last update: {{ Carbon\Carbon::parse($location->created_at)->addHours(2) }}
                         </li>
