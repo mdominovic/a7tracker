@@ -186,16 +186,18 @@ class DeviceController extends Controller
                 ['latitude' => $location_array[38]->latitude, 'longitude' => $location_array[38]->longitude]]);
         }
 
-//        $lines = array();
-//
+//        $dots = array();
+
 //        foreach ($location_array as $loc){
-//            array_push($lines, [['latitude' => $loc->latitude, 'longitude' => $loc->longitude], []);
+//            array_push($dots, [['latitude' => $loc->latitude, 'longitude' => $loc->longitude], []);
 //        }
-//
-//
-//
+
+        for ($i = 1; $i < count($location_array); $i++) {
+            Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
+                ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
+        }
+
 //        foreach ($lines as $line){
-//            dd($line);
 //            Mapper::polyline([['latitude' => $line['latitude'], 'longitude' => $line['longitude']]]);
 //        }
 
