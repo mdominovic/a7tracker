@@ -129,7 +129,7 @@ class DeviceController extends Controller
 
         $location = Location::where('device_id', $id)->orderby('created_at', 'desc')->first();
 
-        $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->take(39)->get();
+        $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->get();
         //->take(5)
 
         if (empty($location)) {
@@ -144,47 +144,47 @@ class DeviceController extends Controller
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF0000', 'radius' => $device->radius]);
 
-        if (count($location_array) == 39) {
-            Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
-                ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
-                ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
-                ['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude],
-                ['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude],
-                ['latitude' => $location_array[5]->latitude, 'longitude' => $location_array[5]->longitude],
-                ['latitude' => $location_array[6]->latitude, 'longitude' => $location_array[6]->longitude],
-                ['latitude' => $location_array[7]->latitude, 'longitude' => $location_array[7]->longitude],
-                ['latitude' => $location_array[8]->latitude, 'longitude' => $location_array[8]->longitude],
-                ['latitude' => $location_array[9]->latitude, 'longitude' => $location_array[9]->longitude],
-                ['latitude' => $location_array[10]->latitude, 'longitude' => $location_array[10]->longitude],
-                ['latitude' => $location_array[11]->latitude, 'longitude' => $location_array[11]->longitude],
-                ['latitude' => $location_array[12]->latitude, 'longitude' => $location_array[12]->longitude],
-                ['latitude' => $location_array[13]->latitude, 'longitude' => $location_array[13]->longitude],
-                ['latitude' => $location_array[14]->latitude, 'longitude' => $location_array[14]->longitude],
-                ['latitude' => $location_array[15]->latitude, 'longitude' => $location_array[15]->longitude],
-                ['latitude' => $location_array[16]->latitude, 'longitude' => $location_array[16]->longitude],
-                ['latitude' => $location_array[17]->latitude, 'longitude' => $location_array[17]->longitude],
-                ['latitude' => $location_array[18]->latitude, 'longitude' => $location_array[18]->longitude],
-                ['latitude' => $location_array[19]->latitude, 'longitude' => $location_array[19]->longitude],
-                ['latitude' => $location_array[20]->latitude, 'longitude' => $location_array[20]->longitude],
-                ['latitude' => $location_array[21]->latitude, 'longitude' => $location_array[21]->longitude],
-                ['latitude' => $location_array[22]->latitude, 'longitude' => $location_array[22]->longitude],
-                ['latitude' => $location_array[23]->latitude, 'longitude' => $location_array[23]->longitude],
-                ['latitude' => $location_array[24]->latitude, 'longitude' => $location_array[24]->longitude],
-                ['latitude' => $location_array[25]->latitude, 'longitude' => $location_array[25]->longitude],
-                ['latitude' => $location_array[26]->latitude, 'longitude' => $location_array[26]->longitude],
-                ['latitude' => $location_array[27]->latitude, 'longitude' => $location_array[27]->longitude],
-                ['latitude' => $location_array[28]->latitude, 'longitude' => $location_array[28]->longitude],
-                ['latitude' => $location_array[29]->latitude, 'longitude' => $location_array[29]->longitude],
-                ['latitude' => $location_array[30]->latitude, 'longitude' => $location_array[30]->longitude],
-                ['latitude' => $location_array[31]->latitude, 'longitude' => $location_array[31]->longitude],
-                ['latitude' => $location_array[32]->latitude, 'longitude' => $location_array[32]->longitude],
-                ['latitude' => $location_array[33]->latitude, 'longitude' => $location_array[33]->longitude],
-                ['latitude' => $location_array[34]->latitude, 'longitude' => $location_array[34]->longitude],
-                ['latitude' => $location_array[35]->latitude, 'longitude' => $location_array[35]->longitude],
-                ['latitude' => $location_array[36]->latitude, 'longitude' => $location_array[36]->longitude],
-                ['latitude' => $location_array[37]->latitude, 'longitude' => $location_array[37]->longitude],
-                ['latitude' => $location_array[38]->latitude, 'longitude' => $location_array[38]->longitude]]);
-        }
+//        if (count($location_array) == 39) {
+//            Mapper::polyline([['latitude' => $location_array[0]->latitude, 'longitude' => $location_array[0]->longitude],
+//                ['latitude' => $location_array[1]->latitude, 'longitude' => $location_array[1]->longitude],
+//                ['latitude' => $location_array[2]->latitude, 'longitude' => $location_array[2]->longitude],
+//                ['latitude' => $location_array[3]->latitude, 'longitude' => $location_array[3]->longitude],
+//                ['latitude' => $location_array[4]->latitude, 'longitude' => $location_array[4]->longitude],
+//                ['latitude' => $location_array[5]->latitude, 'longitude' => $location_array[5]->longitude],
+//                ['latitude' => $location_array[6]->latitude, 'longitude' => $location_array[6]->longitude],
+//                ['latitude' => $location_array[7]->latitude, 'longitude' => $location_array[7]->longitude],
+//                ['latitude' => $location_array[8]->latitude, 'longitude' => $location_array[8]->longitude],
+//                ['latitude' => $location_array[9]->latitude, 'longitude' => $location_array[9]->longitude],
+//                ['latitude' => $location_array[10]->latitude, 'longitude' => $location_array[10]->longitude],
+//                ['latitude' => $location_array[11]->latitude, 'longitude' => $location_array[11]->longitude],
+//                ['latitude' => $location_array[12]->latitude, 'longitude' => $location_array[12]->longitude],
+//                ['latitude' => $location_array[13]->latitude, 'longitude' => $location_array[13]->longitude],
+//                ['latitude' => $location_array[14]->latitude, 'longitude' => $location_array[14]->longitude],
+//                ['latitude' => $location_array[15]->latitude, 'longitude' => $location_array[15]->longitude],
+//                ['latitude' => $location_array[16]->latitude, 'longitude' => $location_array[16]->longitude],
+//                ['latitude' => $location_array[17]->latitude, 'longitude' => $location_array[17]->longitude],
+//                ['latitude' => $location_array[18]->latitude, 'longitude' => $location_array[18]->longitude],
+//                ['latitude' => $location_array[19]->latitude, 'longitude' => $location_array[19]->longitude],
+//                ['latitude' => $location_array[20]->latitude, 'longitude' => $location_array[20]->longitude],
+//                ['latitude' => $location_array[21]->latitude, 'longitude' => $location_array[21]->longitude],
+//                ['latitude' => $location_array[22]->latitude, 'longitude' => $location_array[22]->longitude],
+//                ['latitude' => $location_array[23]->latitude, 'longitude' => $location_array[23]->longitude],
+//                ['latitude' => $location_array[24]->latitude, 'longitude' => $location_array[24]->longitude],
+//                ['latitude' => $location_array[25]->latitude, 'longitude' => $location_array[25]->longitude],
+//                ['latitude' => $location_array[26]->latitude, 'longitude' => $location_array[26]->longitude],
+//                ['latitude' => $location_array[27]->latitude, 'longitude' => $location_array[27]->longitude],
+//                ['latitude' => $location_array[28]->latitude, 'longitude' => $location_array[28]->longitude],
+//                ['latitude' => $location_array[29]->latitude, 'longitude' => $location_array[29]->longitude],
+//                ['latitude' => $location_array[30]->latitude, 'longitude' => $location_array[30]->longitude],
+//                ['latitude' => $location_array[31]->latitude, 'longitude' => $location_array[31]->longitude],
+//                ['latitude' => $location_array[32]->latitude, 'longitude' => $location_array[32]->longitude],
+//                ['latitude' => $location_array[33]->latitude, 'longitude' => $location_array[33]->longitude],
+//                ['latitude' => $location_array[34]->latitude, 'longitude' => $location_array[34]->longitude],
+//                ['latitude' => $location_array[35]->latitude, 'longitude' => $location_array[35]->longitude],
+//                ['latitude' => $location_array[36]->latitude, 'longitude' => $location_array[36]->longitude],
+//                ['latitude' => $location_array[37]->latitude, 'longitude' => $location_array[37]->longitude],
+//                ['latitude' => $location_array[38]->latitude, 'longitude' => $location_array[38]->longitude]]);
+//        }
 
 //        $dots = array();
 
