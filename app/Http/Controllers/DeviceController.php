@@ -146,10 +146,10 @@ class DeviceController extends Controller
 
         for ($i = 1; $i < count($location_array); $i++) {
 
-            Mapper::marker($location_array[$i]->latitude, $location_array[$i]->longitude);
+//            Mapper::marker($location_array[$i]->latitude, $location_array[$i]->longitude);
 
-//            Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
-//                ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
+            Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
+                ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
         }
 
         return view('device.show')->with('device', Device::find($id))->with('location', $location)->with('location_array', $location_array);
