@@ -140,8 +140,6 @@ class DeviceController extends Controller
             return view('device.show')->with('device', Device::find($id));
         }
 
-        dd($location_array);
-
         Mapper::map($location->latitude, $location->longitude, ['zoom' => 15, 'type' => 'ROADMAP'])
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#0000FF', 'fillOpacity' => 0.15,'radius' => $device->radius]);
