@@ -144,7 +144,7 @@ class DeviceController extends Controller
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#0000FF', 'fillOpacity' => 0.15,'radius' => $device->radius]);
 
-        for ($i = 1; $i < count($location_array); $i++) {
+        for ($i = 13; $i < count($location_array); $i++) {
 
             Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
                 ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
