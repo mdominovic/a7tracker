@@ -56,7 +56,6 @@ return [
             'engine' => null,
         ],
 
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => $DATABASE_URL["host"],
@@ -69,6 +68,21 @@ return [
             'schema' => 'public',
             'sslmode' => 'require',
         ],
+
+//        'pgsql' => [
+//            'driver' => 'pgsql',
+//            'host' => '127.0.0.1',
+//            'port' => '5432',
+//            'database' => 'a7tracker',
+//            'username' => 'postgres',
+//            'password' => 'admin',
+//            'charset' => 'utf8',
+//            'prefix' => '',
+//            'schema' => 'public',
+//            'sslmode' => 'require',
+//        ],
+
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
