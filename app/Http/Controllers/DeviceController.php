@@ -129,7 +129,7 @@ class DeviceController extends Controller
 
         $location = Location::where('device_id', $id)->orderby('created_at', 'desc')->first();
 
-        $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->get();
+        $location_array = Location::where('device_id', $id)->orderBy('id', 'desc')->take(37)->get();
         //->take(5)
 
         if (empty($location)) {
@@ -144,7 +144,7 @@ class DeviceController extends Controller
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
                 ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#0000FF', 'fillOpacity' => 0.15,'radius' => $device->radius]);
 
-        for ($i = 13; $i < count($location_array); $i++) {
+        for ($i = 1; $i < count($location_array); $i++) {
 
             Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
                 ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
