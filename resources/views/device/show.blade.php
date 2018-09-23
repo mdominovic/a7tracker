@@ -44,7 +44,7 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Altitude: {{ $location->altitude }}
+                            Altitude: {{ number_format($location->altitude, 0, '.', ',') }} m
                         </li>
                         <li class="list-group-item">
                             Speed: {{ $location->speed }} km/h
