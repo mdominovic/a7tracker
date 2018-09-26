@@ -34,7 +34,7 @@
                             Home location: {{ $device->home_location }}
                         </li>
                         <li class="list-group-item">
-                            Boundary radius: {{ $device->radius }}
+                            Boundary radius: {{ $device->radius }} m
                         </li>
                     </ul>
                 </div>

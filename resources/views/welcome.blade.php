@@ -29,14 +29,14 @@
                 color: red;
                 font-size: 19px;
             }
-            #bg {
+            #bg1 {
                 position: fixed;
                 top: -50%;
                 left: -50%;
                 width: 200%;
                 height: 200%;
             }
-            #bg img {
+            #bg1 img {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -56,6 +56,15 @@
                 height: 100vh;
                 margin: 0;
             }
+
+            /*html {*/
+                /*background: url(images/home.jpg) no-repeat center center fixed;*/
+                /*-webkit-background-size: cover;*/
+                /*-moz-background-size: cover;*/
+                /*-o-background-size: cover;*/
+                /*background-size: cover;*/
+            /*}*/
+
 
             .full-height {
                 height: 100vh;
@@ -98,14 +107,35 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            img.bg {
+                /* Set rules to fill background */
+                /*min-height: 100%;*/
+                min-width: 1024px;
+
+                /* Set up proportionate scaling */
+                width: 100%;
+                height: auto;
+
+                /* Set up positioning */
+                position: fixed;
+                top: 0;
+                left: 30px;
+            }
+
+            @media screen and (max-width: 1024px) { /* Specific to this particular image */
+                img.bg {
+                    left: 60%;
+                    margin-left: -512px;   /* 50% */
+                }
+            }
         </style>
     </head>
     <body>
 
 
-    <div id="bg">
-        <img src="css/images/home.png" alt="">
-    </div>
+    {{--<div id="bg">--}}
+        <img class="bg" src="css/images/home.png" alt="">
+    {{--</div>--}}
 
 
         <div class="flex-center position-ref full-height">
