@@ -25,7 +25,17 @@ class DeviceController extends Controller
 
         $devices = $user->devices()->get();
 
-        return view('device.index')->with('devices', $devices);
+        $last_locations = array();
+
+        foreach($devices as $device) {
+
+            $last_location = Location::where('device_id', '=', $device->id)->orderBy('created_at', 'desc')->first();
+
+            array_push($last_locations, $last_location);
+
+        }
+
+        return view('device.index')->with('devices', $devices)->with('last_locations', $last_locations);
     }
 
     /**
@@ -142,11 +152,11 @@ class DeviceController extends Controller
 
         Mapper::map($location->latitude, $location->longitude, ['zoom' => 15, 'type' => 'ROADMAP'])
             ->circle([['latitude' => $device->center_lat, 'longitude' => $device->center_lng]],
-                ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#0000FF', 'fillOpacity' => 0.15,'radius' => $device->radius]);
+                ['strokeColor' => '#FF0000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#0000FF', 'fillOpacity' => 0.15, 'radius' => $device->radius]);
 
         for ($i = 1; $i < count($location_array); $i++) {
 
-            Mapper::polyline([['latitude' => $location_array[$i-1]->latitude, 'longitude' => $location_array[$i-1]->longitude],
+            Mapper::polyline([['latitude' => $location_array[$i - 1]->latitude, 'longitude' => $location_array[$i - 1]->longitude],
                 ['latitude' => $location_array[$i]->latitude, 'longitude' => $location_array[$i]->longitude]]);
         }
 
@@ -215,7 +225,7 @@ class DeviceController extends Controller
 
         $device->users()->detach(Auth::id());
 
-        if($device->owner_id === Auth::id()){
+        if ($device->owner_id === Auth::id()) {
             $device->owner_id = null;
             $device->save();
         }
@@ -264,4 +274,19 @@ class DeviceController extends Controller
 
         return view('home');
     }
+
+//    public function statusRelevancy(Device $device)
+//    {
+//        $last_location = Location::where('device_id', '=', $device->id)->orderBy('created_at', 'desc')->first();
+//
+//        dd($last_location);
+//
+//        if (!$device->out_of_boundary && Carbon::parse($last_location)->addMinutes(15) > Carbon::now()) {
+//            return 1;
+//        } else if ($device->out_of_boundary && Carbon::parse($last_location)->addMinutes(30) > Carbon::now()) {
+//            return 2;
+//        } else if (Carbon::parse($last_location)->addMinutes(30) < Carbon::now()) {
+//            return 3;
+//        }
+//    }
 }

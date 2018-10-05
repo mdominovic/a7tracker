@@ -65,36 +65,29 @@ class LocationController extends Controller
 
             if ($this->distance($d->id) > $d->radius) {
 
-                $devices = Device::where('serial_number', $data_array[5])->get();
+//                $devices = Device::where('serial_number', $data_array[5])->get();
 
-                $users = array();
+                $user = User::find($d->user_id);
+                $users = $d->users()->get();
                 $phone_numbers = array();
 
-                foreach ($devices as $device) {
-                    array_push($users, User::find($device->user_id));
-
-                    if(!is_null($device->contact_1)){
-                        array_push($phone_numbers, $device->contact_1);
-                    }
-
-                    if (!is_null($device->contact_2)){
-                        array_push($phone_numbers, $device->contact_2);
-                    }
-
-                    if (!is_null($device->contact_3)){
-                        array_push($phone_numbers, $device->contact_3);
-                    }
-
-                    if($device->out_of_boundary !== true) {
-                        DeviceController::outOfBoundary($device->id, true);
-                    }
+                array_push($phone_numbers, $d->contact_1);
+                if(!empty($d->contact_2)) {
+                    array_push($phone_numbers, $d->contact_2);
+                } elseif (!empty($d->contact_3)) {
+                    array_push($phone_numbers, $d->contact_3);
                 }
 
 //                dd($device->last_message_sent, Carbon::now(), Carbon::parse($device->last_message_sent), Carbon::parse($device->last_message_sent)->addHours(2));
 
-                if($d->out_of_boundary !== false && Carbon::parse($device->last_message_sent)->addHours(2)->lt(Carbon::now())) {
+                if($d->out_of_boundary !== false && Carbon::parse($d->last_message_sent)->addHours(2)->lt(Carbon::now())) {
                     Notification::send($users, new \App\Notifications\DeviceOutOfBounds());
 //                    $this->sendSms($phone_numbers);
+                    $d->last_message_sent = Carbon::now()->toDateTimeString();
+                    $d->save();
+                    echo "Email sent";
+                    echo "<br>";
+                    echo "SMS sent";
                 }
 
 
@@ -184,7 +177,6 @@ class LocationController extends Controller
     public function sendSms($phone_numbers){
         $basic  = new \Nexmo\Client\Credentials\Basic('4501eeb9', 'No7YbT9sxvzVW1UL');
         $client = new \Nexmo\Client($basic);
-
 
         foreach ($phone_numbers as $phone_number) {
             $message = $client->message()->send([
